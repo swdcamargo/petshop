@@ -1,0 +1,9 @@
+1 Configuração do Ambiente de Desenvolvimento:
+
+Criação e ativação de um ambiente virtual (venv).
+Configuração do terminal integrado na IDE (VS Code) para usar o ambiente virtual.
+
+2 Instalação das Dependências:
+
+Instalação das bibliotecas necessárias: FastAPI, SQLAlchemy, asyncpg, Alembic, Pydantic, e Uvicorn.
+Geração do arquivo requirements.txt para facilitar a instalação de dependências no futuro.
