@@ -27,29 +27,30 @@ def cad_prod(produto:Produto):
     
 
 
-@app.get("/cadastroproduto")
-def read_prod():
-    if not produto_guardado:
-        raise HTTPException(status_code=404, detail="Nenhum produto cadastrado")
+def cad_prod(produto: Produto):
+    for p in produto_guardado:
+        if p.id == produto.id:
+            raise HTTPException(status_code=400, detail="Produto com esse ID já existe")
     
-    return produto_guardado
+    produto_guardado.append(produto)
+    return {"message": "Produto cadastrado com sucesso!"}
 
     
 
-@app.put("/cadastroproduto")
-def att_produto(produto:Produto):
-    global produto_guardado
-    if produto_guardado is None:
-        raise HTTPException(status_code=404, detail="Nenhum produto cadastrado para atualizar")
+@app.put("/cadastroproduto/{produto_id}")
+def att_produto(produto_id: int, produto: Produto):
+    for index, pdnalista in enumerate(produto_guardado):
+        if pdnalista.id == produto_id:
+            produto_guardado[index] = produto
+            return {"message": "Produto atualizado com sucesso!", "produto_atualizado": produto}
+    
+    raise HTTPException(status_code=404, detail="Produto não encontrado para atualizar")
 
-    produto_guardado += produto
-
-    return {"message": "Produto atualizado com sucesso!", "produto_atualizado": produto_guardado}
-
-@app.delete("/cadastroproduto")
-def delete_produto(produto:Produto):
-    global produto_guardado
-    if produto_guardado == None: 
-        raise HTTPException(status_code=404, detail="Nenhum produto cadastrado para excluir")
-    else: produto_guardado.remove(produto)
-    return {"message":"Produto excluido com sucesso!"}
+@app.delete("/cadastroproduto/{produto_id}")
+def delete_produto(produto_id: int):
+    for pdnalista in produto_guardado:
+        if pdnalista.id == produto_id:
+            produto_guardado.remove(pdnalista)
+            return {"message": "Produto excluído com sucesso!"}
+    
+    raise HTTPException(status_code=404, detail="Produto não encontrado para excluir")

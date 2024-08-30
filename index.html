@@ -3,106 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Produto - Esquina das Rações</title>
+    <title>Navbar Exemplo</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
 
-    <header>
-        <h1>Cadastro de Produto - Esquina das Rações</h1>
-    </header>
+    <nav class="navbar">
+        <div class="logo">Esquina das Rações</div>
+        <div class="menu">
+            <a href="#cadastro">Cadastro de Produtos</a>
+        </div>
+    </nav>
 
-    <main>
-        <section>
-            <h2>Cadastrar Produto</h2>
-            <form id="cadastro-produto">
-                <div>
-                    <label for="id">ID do Produto:</label>
-                    <input type="number" id="id" name="id" required>
-                </div>
 
-                <div>
-                    <label for="nome">Nome do Produto:</label>
-                    <input type="text" id="nome" name="nome" required>
-                </div>
-
-                <div>
-                    <label for="categoria">Categoria:</label>
-                    <select id="categoria" name="categoria" required>
-                        <option value="ALIMENTO">Alimento</option>
-                        <option value="MEDICAMENTO">Medicamento</option>
-                        <option value="ACESSORIO">Acessório</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="preco">Preço do Produto (R$):</label>
-                    <input type="number" id="preco" name="preco" step="0.01" required>
-                </div>
-
-                <div>
-                    <button type="submit">Cadastrar Produto</button>
-                </div>
-            </form>
-        </section>
-
-        <section>
-            <h2>Produto Cadastrado</h2>
-            <div class="ver-produto">
-                <button id="ver-produto">Ver Produto</button>
-            </div>
-            
-            <div id="produto-info"></div>
-        </section>
-
-        <section>
-            <h2>Atualizar Produto</h2>
-            <form id="atualizar-produto">
-                <!-- Os mesmos campos do cadastro, mas para atualização -->
-                <div>
-                    <label for="id-atualizar">ID do Produto:</label>
-                    <input type="number" id="id-atualizar" name="id" required>
-                </div>
-
-                <div>
-                    <label for="nome-atualizar">Nome do Produto:</label>
-                    <input type="text" id="nome-atualizar" name="nome" required>
-                </div>
-
-                <div>
-                    <label for="categoria-atualizar">Categoria:</label>
-                    <select id="categoria-atualizar" name="categoria" required>
-                        <option value="ALIMENTO">Alimento</option>
-                        <option value="MEDICAMENTO">Medicamento</option>
-                        <option value="ACESSORIO">Acessório</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label for="preco-atualizar">Preço do Produto (R$):</label>
-                    <input type="number" id="preco-atualizar" name="preco" step="0.01" required>
-                </div>
-
-                <div>
-                    <button type="submit">Atualizar Produto</button>
-                </div>
-            </form>
-        </section>
-
-        <section>
-            <h2>Excluir Produto</h2>
-            <div class="excluir-produto">
-                <button id="excluir-produto">Excluir Produto</button>
-            </div>
-            
-            <div id="mensagem-exclusao"></div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Esquina das Rações</p>
-    </footer>
-
+    
 </body>
 </html>
