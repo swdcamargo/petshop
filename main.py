@@ -1,10 +1,15 @@
 from enum import Enum
-from typing import Union
-from fastapi import FastAPI
-from fastapi import HTTPException
+from typing import List
+from fastapi import FastAPI, Form, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 class Categoria(Enum):
     ALIMENTO = "ALIMENTO"
@@ -17,40 +22,35 @@ class Produto(BaseModel):
     categoria: Categoria
     preco: float
 
-produto_guardado = []
+produto_guardado: List[Produto] = []
 
+@app.get("/", response_class=HTMLResponse)
+async def read_products(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request, "produtos": produto_guardado})
 
-@app.post("/cadastroproduto")
-def cad_prod(produto:Produto):
+@app.post("/cadastroproduto/")
+async def create_product(request: Request, id: int = Form(...), nome: str = Form(...), categoria: Categoria = Form(...), preco: float = Form(...)):
+    produto = Produto(id=id, nome=nome, categoria=categoria, preco=preco)
     produto_guardado.append(produto)
-    return {"message": "Produto cadastrado com sucesso!"}
-    
+    return templates.TemplateResponse("index.html", {"request": request, "produtos": produto_guardado})
 
+@app.get("/edit/{produto_id}", response_class=HTMLResponse)
+async def edit_product(request: Request, produto_id: int):
+    produto = next((p for p in produto_guardado if p.id == produto_id), None)
+    if produto is None:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+    return templates.TemplateResponse("edit.html", {"request": request, "produto": produto})
 
-def cad_prod(produto: Produto):
-    for p in produto_guardado:
-        if p.id == produto.id:
-            raise HTTPException(status_code=400, detail="Produto com esse ID já existe")
-    
-    produto_guardado.append(produto)
-    return {"message": "Produto cadastrado com sucesso!"}
+@app.post("/updateproduto/")
+async def update_product(request: Request, id: int = Form(...), nome: str = Form(...), categoria: Categoria = Form(...), preco: float = Form(...)):
+    for index, p in enumerate(produto_guardado):
+        if p.id == id:
+            produto_guardado[index] = Produto(id=id, nome=nome, categoria=categoria, preco=preco)
+            break
+    return templates.TemplateResponse("index.html", {"request": request, "produtos": produto_guardado})
 
-    
-
-@app.put("/cadastroproduto/{produto_id}")
-def att_produto(produto_id: int, produto: Produto):
-    for index, pdnalista in enumerate(produto_guardado):
-        if pdnalista.id == produto_id:
-            produto_guardado[index] = produto
-            return {"message": "Produto atualizado com sucesso!", "produto_atualizado": produto}
-    
-    raise HTTPException(status_code=404, detail="Produto não encontrado para atualizar")
-
-@app.delete("/cadastroproduto/{produto_id}")
-def delete_produto(produto_id: int):
-    for pdnalista in produto_guardado:
-        if pdnalista.id == produto_id:
-            produto_guardado.remove(pdnalista)
-            return {"message": "Produto excluído com sucesso!"}
-    
-    raise HTTPException(status_code=404, detail="Produto não encontrado para excluir")
+@app.get("/delete/{produto_id}", response_class=HTMLResponse)
+async def delete_product(request: Request, produto_id: int):
+    global produto_guardado
+    produto_guardado = [p for p in produto_guardado if p.id != produto_id]
+    return templates.TemplateResponse("index.html", {"request": request, "produtos": produto_guardado})

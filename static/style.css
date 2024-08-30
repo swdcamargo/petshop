@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;  
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1ca4da;
+    padding: 10px 20px;
+}
+
+.navbar .logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: rgb(10, 10, 10);
+}
+
+.navbar .menu a {
+    color: rgb(14, 13, 13);
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+.navbar .menu a:hover {
+    text-decoration: underline;
+}
+
+.teladelogin{
+    height: calc(80vh - 50px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 500px;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    
+}
+
+.login-container input[type="text"], 
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #5a5656;
+    border-radius: 4px;
+}
+
+.login-container button {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    
+    background-color: #45a049;
+}
+
+.login-container p {
+    margin-top: 20px;
+    text-align: center;
+}
+.bemvindo{
+    text-align: center;
+}
